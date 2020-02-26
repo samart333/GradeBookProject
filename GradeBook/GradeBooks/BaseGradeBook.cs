@@ -9,17 +9,21 @@ using Newtonsoft.Json.Linq;
 
 namespace GradeBook.GradeBooks
 {
-    public class BaseGradeBook
+    public abstract class BaseGradeBook
     {
         public GradeBookType Type { get; set; }
         public string Name { get; set; }
         public List<Student> Students { get; set; }
+        public bool IsWeighted { get; set; }
 
-        public BaseGradeBook(string name)
+        public BaseGradeBook(string name, bool weighted)
         {
             Name = name;
+            IsWeighted = weighted;
             Students = new List<Student>();
         }
+       
+
 
         public void AddStudent(Student student)
         {
@@ -110,14 +114,24 @@ namespace GradeBook.GradeBooks
             switch (letterGrade)
             {
                 case 'A':
+                    if (IsWeighted == true && (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled))
+                        return 4 + 1;
                     return 4;
                 case 'B':
+                    if (IsWeighted == true && (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled))
+                        return 3 + 1;
                     return 3;
                 case 'C':
+                    if (IsWeighted == true && (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled))
+                        return 2 + 1;
                     return 2;
                 case 'D':
+                    if (IsWeighted == true && (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled))
+                        return 1 + 1;
                     return 1;
                 case 'F':
+                    if (IsWeighted == true && (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled))
+                        return 0 + 1;
                     return 0;
             }
             return 0;
